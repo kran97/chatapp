@@ -1,23 +1,29 @@
 const mongoose = require('mongoose');
-const crypt = require('bcrypt');
+const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
+const saltRounds = 6;
 
 const userSchema = new mongoose.Schema({
     firstName: {
         type : String,
-        required: true
-        min : [3, 'should be more than 3 characters']
+        required: true,
+        minlength : 3
     },
     lastName: {
         type : String,
-        required: true
+        required: true,
+        minlength : 3
     },
     email: {
         type : String,
-        required: true
+        required: true,
+        trim : true,
+        unique : true
     },
     password: {
         type : String,
-        required: true
+        required: true,
+        minlength : 6
     }
 }, {
         timestamps: true
@@ -37,7 +43,7 @@ class userModel {
             firstName: body.firstName,
             lastName: body.lastName,
             email: body.email,
-            password: body.password
+            password: bcrypt.hashSync(body.password, saltRounds)
         })
         const userSave = userReg.save((err, result) => {
             if(err){
@@ -47,6 +53,62 @@ class userModel {
             }
         })
         return userSave;
+    }
+
+    login = (body, callback) => {
+        user.findOne({email: body.email}, (err, res) => {
+            if(!res)
+            {
+                callback("email error");
+            }
+            else
+            {   
+                if(bcrypt.compareSync(body.password, res.password))
+                {
+                    callback(null, res);
+                }
+                else
+                {
+                    callback("password error");
+                }
+            }
+        })
+    }
+
+    forgot = (body, callback) => {
+        user.findOne({email: body.email}, (err, res) => {
+            if(!res)
+            {
+                callback("Email doesn't exist");
+            }
+            else{
+                var transporter = nodemailer.createTransport({
+                    service : "Gmail",
+                    auth: {
+                        user: 'chatappowner@gmail.com',
+                        pass: 'admin123admin'
+                    }
+                });
+                var mailOptions = {
+                    from: 'chatApp <chatappowner@gmail.com>',
+                    to: res.email,
+                    subject: 'Reset password',
+                    text: 'Link to be put here'
+                };
+                transporter.sendMail(mailOptions, function(err, res){
+                    if(err)
+                    {
+                        callback(err);
+                    }
+                    else
+                    {
+                        console.log('Email sent');
+                        callback(null, res);
+                    }
+                });
+                    callback(null, res);
+            }
+        })
     }
 }
 
