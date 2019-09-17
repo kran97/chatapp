@@ -5,70 +5,59 @@ const saltRounds = 6;
 
 const userSchema = new mongoose.Schema({
     firstName: {
-        type : String,
+        type: String,
         required: true,
-        minlength : 3
+        minlength: 3
     },
     lastName: {
-        type : String,
+        type: String,
         required: true,
-        minlength : 3
+        minlength: 3
     },
     email: {
-        type : String,
+        type: String,
         required: true,
-        trim : true,
-        unique : true
+        trim: true,
+        unique: true
     },
     password: {
-        type : String,
+        type: String,
         required: true,
-        minlength : 6
+        minlength: 6
     }
 }, {
-        timestamps: true
-    });
+    timestamps: true
+});
 
 let user = mongoose.model('userSch', userSchema);
-// function userModel(){
-// }
-// userModel.prototype.register = (body , callback) => {
-//  let user = {
-//  }
-// }
-// module.exports = 
+
 class userModel {
-    register =  (body, callback) => {
+    register = ({ firstName, lastName, email, password }, callback) => {
         const userReg = new user({
-            firstName: body.firstName,
-            lastName: body.lastName,
-            email: body.email,
-            password: bcrypt.hashSync(body.password, saltRounds)
+            firstName,
+            lastName,
+            email,
+            password: bcrypt.hashSync(password, saltRounds)
         })
-        const userSave = userReg.save((err, result) => {
-            if(err){
-              callback(err);
-            }else{
-                callback(null , result)
+        userReg.save((err, result) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback(null, result)
             }
         })
-        return userSave;
     }
 
     login = (body, callback) => {
-        user.findOne({email: body.email}, (err, res) => {
-            if(!res)
-            {
+        user.findOne({ email: body.email }, (err, res) => {
+            if (!res) {
                 callback("email error");
             }
-            else
-            {   
-                if(bcrypt.compareSync(body.password, res.password))
-                {
+            else {
+                if (bcrypt.compareSync(body.password, res.password)) {
                     callback(null, res);
                 }
-                else
-                {
+                else {
                     callback("password error");
                 }
             }
@@ -76,14 +65,13 @@ class userModel {
     }
 
     forgot = (body, callback) => {
-        user.findOne({email: body.email}, (err, res) => {
-            if(!res)
-            {
+        user.findOne({ email: body.email }, (err, res) => {
+            if (!res) {
                 callback("Email doesn't exist");
             }
-            else{
+            else {
                 var transporter = nodemailer.createTransport({
-                    service : "Gmail",
+                    service: "Gmail",
                     auth: {
                         user: 'chatappowner@gmail.com',
                         pass: 'admin123admin'
@@ -95,18 +83,16 @@ class userModel {
                     subject: 'Reset password',
                     text: 'Link to be put here'
                 };
-                transporter.sendMail(mailOptions, function(err, res){
-                    if(err)
-                    {
+                transporter.sendMail(mailOptions, function (err, res) {
+                    if (err) {
                         callback(err);
                     }
-                    else
-                    {
+                    else {
                         console.log('Email sent');
                         callback(null, res);
                     }
                 });
-                    callback(null, res);
+                callback(null, res);
             }
         })
     }

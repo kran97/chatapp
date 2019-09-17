@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const route = require('./app/routes/note.route');
+const route = require('./routes/note.route');
+const expressValidator = require("express-validator");
 // create express app
 const app = express();
 
@@ -25,11 +26,8 @@ mongoose.connect(dbConfig.url, {
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json())
+app.use(expressValidator());
 app.use("/", route)
-// define a simple route
-// app.get('/', (req, res) => {
-//     res.json({ "message": "Welcome to EasyNotes application. Take notes quickly. Organize and keep track of all your notes." });
-// });
 
 // listen for requests
 app.listen(3000, () => {

@@ -1,5 +1,4 @@
-const userModel = require('../app/models/userModel');
-
+const userModel = require('../models/userModel');
 exports.registerService = (body, callback) => {
 
 userModel.register(body , (err , result) => {
