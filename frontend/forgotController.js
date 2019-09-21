@@ -1,9 +1,9 @@
 (function () {
     'use strict';
 
-    angular.module('chatApp').controller('forgotCtrl',['$scope','forgotService', function ($scope, loginService) {
+    angular.module('chatApp').controller('forgotCtrl',['$scope','forgotService', function ($scope, forgotService) {
 
-        $scope.loginUser = function () {
+        $scope.forgotUser = function () {
             console.log($scope);            //printing $scope
             var scopeObj = {};
             $scope.dataLoading = true;

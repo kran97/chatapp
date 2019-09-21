@@ -6,7 +6,7 @@
                 method: 'POST',
                 url: 'http://localhost:3000/forgot',
                 data: {
-                    "email" : scopeObj.email,
+                    "email" : scopeObj.email
                 }
             })
             .then(function(success) {
