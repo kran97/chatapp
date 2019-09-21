@@ -10,6 +10,9 @@ const router = express.Router();
 
     router.post('/forgotPassword' , chat.forgotController);
 
+    router.post('/reset', chat.resetController);
+
+    router.post('/message', chat.messageController);
     // // Retrieve all Notes
     // app.get('/notes', notes.findAll);
 

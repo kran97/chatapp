@@ -34,3 +34,29 @@ exports.forgotService = (body, callback) => {
         }
     })
 }
+
+exports.resetService = (body, callback) => {
+    userModel.reset(body, (err, result) => {
+        if(err)
+        {
+            callback(err);
+        }
+        else
+        {
+            callback(null, result);
+        }
+    })
+}
+
+exports.messageService = (body, callback) => {
+    userModel.message(body, (err, result) => {
+        if(err)
+        {
+            callback(err);
+        }
+        else
+        {
+            callback(null, result);
+        }
+    })
+}

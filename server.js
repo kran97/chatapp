@@ -29,6 +29,8 @@ app.use(bodyParser.json())
 app.use(expressValidator());
 app.use("/", route)
 
+app.use(express.static('./frontend'));
+
 // listen for requests
 app.listen(3000, () => {
     console.log("Server is listening on port 3000");

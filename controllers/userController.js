@@ -71,3 +71,37 @@ exports.forgotController = (req, res) => {
         }
     })
 }
+
+exports.resetController = (req,res) => {
+    let responseResult = {};
+    userService.resetService(req.body, (err, result) => {
+        if(err) {
+            responseResult.success = false;
+            responseResult.errors = err;
+            responseResult.message = 'Cannot reset password';
+            res.status(500).send(responseResult);
+        }else {
+            responseResult.success = true;
+            responseResult.result = result;
+            responseResult.message = 'Password reset successfully';
+            res.status(200).send(responseResult);
+        }
+    })
+}
+
+exports.messageController = (res,req) => {
+    let responseResult = {};
+    userService.messageService(req.body, (err, result) => {
+        if(err) {
+            responseResult.success = false;
+            responseResult.errors = err;
+            responseResult.message = 'Cannot Send Message';
+            res.status(500).send(responseResult);
+        } else {
+            responseResult.success = true;
+            responseResult.result = result;
+            responseResult.message = 'Message Sent Successfully';
+            res.status(200).send(responseResult);
+        }
+    })
+}
