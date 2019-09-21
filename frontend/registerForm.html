@@ -5,13 +5,13 @@
                 <label for="firstName">First Name</label>
                 <i class="fa fa-key"></i>
                 <input type="text" name="firstName" id="firstName" ng-model="firstName" required />
-                <span ng-show="form.firstName.$dirty && form.firstName.$error.required">First name is required</span>
+                <span ng-if="form.firstName.$dirty && form.firstName.$error.required">First name is required</span>
         </div>
         <div>
                 <label for="lastName">Last Name</label>
                 <i class="fa fa-key"></i>
-                <input type="text" name="lastName" id="lastName" ng-model="firstName" required />
-                <span ng-show="form.lastName.$dirty && form.lastName.$error.required">Last name is required</span>
+                <input type="text" name="lastName" id="lastName" ng-model="lastName" required />
+                <span ng-if="form.lastName.$dirty && form.lastName.$error.required">Last name is required</span>
         </div>
         <div class="form-group">
             <label for="email">Email</label>

@@ -19,13 +19,18 @@ chatApp.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, 
             url: "/login",
             templateUrl: "loginForm.html",
             controller: 'loginCtrl'
-            
         })
 
         .state('register', {
             url: "/register",
             templateUrl: "registerForm.html",
             controller: 'registerCtrl'
+        })
+
+        .state('forgot', {
+            url: "/forgot",
+            templateUrl: "forgot.html",
+            controller: 'forgotCtrl'
         })
     $urlRouterProvider.otherwise('home');
 
