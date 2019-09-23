@@ -9,7 +9,7 @@
         <form ng-submit="dashboardUser()" name="form">
             <button type="submit" id="loginbtn" style="padding: 10px;">Get All Users</button>
         </form>
-        
+        <p ng-repeat="email in emailData">{{email.email}}</p>
     </div>
 </div>
 <div class="bg-image"></div>

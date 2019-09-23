@@ -73,6 +73,8 @@ exports.forgotController = (req, res) => {
 }
 
 exports.resetController = (req,res) => {
+    // console.log(req, '-------req-------->')
+    // console.log(res, '--------------->')
     let responseResult = {};
     userService.resetService(req, (err, result) => {
         if(err) {

@@ -1,5 +1,3 @@
-import { header } from "express-validator/check";
-
 (function() {
     'use strict';
 
@@ -11,7 +9,7 @@ import { header } from "express-validator/check";
                 data: {
                     "password" : scopeObj.password
                 },
-                header: {
+                headers: {
                     "tokens" : tokens
                 }
             })

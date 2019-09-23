@@ -110,7 +110,7 @@ class userModel {
             else {
                 let tokens = jwt.sign({ email: body.email },
                     config.secret,
-                    { expiresIn: 60 * 60 }
+                    { expiresIn: 60 * 60000 }
                 );
                 user.updateOne({ email: body.email }, { token: tokens }, function (err, res) {
                     if (err) {
@@ -148,20 +148,23 @@ class userModel {
     }
 
     reset = (req, callback) => {
-
         const tokens = req.headers["tokens"] || req.headers["authorization"];
-        console.log(tokens);
+        
         let decoded = jwt.verify(tokens, config.secret, function (err, decoded) {
             if (err) {
+            
+                console.log(err)
                 callback(err);
             }
             else {
                 user.findOne({ email: decoded.email }, (err, res) => {
+                    
                     if (!res) {
                         callback("Wrong token taken");
                     }
                     else {
-                        user.updateOne({ email: decoded.email }, { password: bcrypt.hashSync(req.body.password, saltRounds) }, function (err, res) {
+                        user.updateOne({ email: decoded.email }, { password: bcrypt.hashSync(req.body.password, saltRounds) }, function (err, res) { 
+                            
                             if (err) {
                                 callback(err);
                             }
