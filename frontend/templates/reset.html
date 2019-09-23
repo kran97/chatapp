@@ -1,0 +1,28 @@
+<div ng-if="error">{{error}}</div>
+
+<nav>
+        <ul>
+            <li><a ui-sref="home">Home</a></li>
+        </ul>
+</nav>
+
+<div class="bg-image"></div>
+
+<form  ng-submit="resetUser()" name="form" class="bg-text">
+    <div>
+        <label for="password" class="labels">Password</label><br>
+        <input type="password" style="width: 100%; height: 35px;" placeholder="Enter new password" name="password" id="password" ng-model="password" ng-minlength="6" required />
+        <span ng-if="form.password.$dirty && form.password.$error.required" class="er">Password is required</span>
+
+        <label for="confirmpassword" class="labels">Confirm Password</label><br>
+        <input type="password" style="width: 100%; height: 35px;" placeholder="Re-enter new password" name="confirmpassword" id="confirmpassword" ng-model="confirmpassword" ng-minlength="6" required />
+        <span ng-if="form.confirmpassword.$dirty && form.confirmpassword.$error.required" class="er">Password is required</span>
+        <span ng-if="form.password.value != form.confirmpassword.value && form.confirmpassword.value != null" class="er">Password does not match</span>
+</div>
+
+        <div class="form-actions">
+                <button type="submit" ng-disabled="form.$invalid || dataLoading" id="loginbtn" style="padding: 15px; margin-top: 10px;">Reset Password</button>
+                <img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+        </div>
+
+</form>

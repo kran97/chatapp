@@ -35,8 +35,8 @@ exports.forgotService = (body, callback) => {
     })
 }
 
-exports.resetService = (body, callback) => {
-    userModel.reset(body, (err, result) => {
+exports.resetService = (req, callback) => {
+    userModel.reset(req, (err, result) => {
         if(err)
         {
             callback(err);
@@ -48,8 +48,8 @@ exports.resetService = (body, callback) => {
     })
 }
 
-exports.messageService = (body, callback) => {
-    userModel.message(body, (err, result) => {
+exports.getUsersService = (body, callback) => {
+    userModel.getUsers(body, (err, result) => {
         if(err)
         {
             callback(err);

@@ -74,7 +74,7 @@ exports.forgotController = (req, res) => {
 
 exports.resetController = (req,res) => {
     let responseResult = {};
-    userService.resetService(req.body, (err, result) => {
+    userService.resetService(req, (err, result) => {
         if(err) {
             responseResult.success = false;
             responseResult.errors = err;
@@ -89,18 +89,18 @@ exports.resetController = (req,res) => {
     })
 }
 
-exports.messageController = (res,req) => {
-    let responseResult = {};
-    userService.messageService(req.body, (err, result) => {
+exports.getUsersController = (req, res) => {
+    let responseResult={};
+    userService.getUsersService(req.body, (err, result) => {
         if(err) {
             responseResult.success = false;
             responseResult.errors = err;
-            responseResult.message = 'Cannot Send Message';
+            responseResult.message = 'Cannot retreive all users';
             res.status(500).send(responseResult);
-        } else {
+        }else {
             responseResult.success = true;
             responseResult.result = result;
-            responseResult.message = 'Message Sent Successfully';
+            responseResult.message = 'All users retreived';
             res.status(200).send(responseResult);
         }
     })

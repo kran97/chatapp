@@ -6,7 +6,7 @@ chatApp.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, 
     $stateProvider
         .state('home', {
             url: '/home',
-            templateUrl: './home.html'
+            templateUrl: './templates/home.html'
         })
 
         // .state('home.dashboard', {
@@ -17,20 +17,32 @@ chatApp.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, 
 
         .state('login', {
             url: "/login",
-            templateUrl: "loginForm.html",
+            templateUrl: "./templates/loginForm.html",
             controller: 'loginCtrl'
         })
 
         .state('register', {
             url: "/register",
-            templateUrl: "registerForm.html",
+            templateUrl: "./templates/registerForm.html",
             controller: 'registerCtrl'
         })
 
         .state('forgot', {
             url: "/forgot",
-            templateUrl: "forgot.html",
+            templateUrl: "./templates/forgot.html",
             controller: 'forgotCtrl'
+        })
+
+        .state('reset', {
+            url: '/reset/:tokens',
+            templateUrl: './templates/reset.html',
+            controller: 'resetCtrl'
+        })
+
+        .state('dashboard', {
+            url: '/dashboard',
+            templateUrl: './templates/dashboard.html',
+            controller: 'dashboardCtrl'
         })
     $urlRouterProvider.otherwise('home');
 

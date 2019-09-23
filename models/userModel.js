@@ -35,8 +35,8 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 });
 
-const msgSchema = new mongoose.Schema ({
-    
+const msgSchema = new mongoose.Schema({
+
     sender: {
         type: String,
         required: true
@@ -58,7 +58,7 @@ const msgSchema = new mongoose.Schema ({
         required: true
     }
 }, {
-    timestamps:true
+    timestamps: true
 });
 
 let user = mongoose.model('userSch', userSchema);
@@ -88,11 +88,11 @@ class userModel {
             }
             else {
                 if (bcrypt.compareSync(body.password, res.password)) {
-                    let token = jwt.sign({email: body.email},
+                    let token = jwt.sign({ email: body.email },
                         config.secret,
-                        {expiresIn: '1h'}
+                        { expiresIn: '1h' }
                     );
-                    
+
                     callback(null, res);
                 }
                 else {
@@ -108,16 +108,15 @@ class userModel {
                 callback("Email doesn't exist");
             }
             else {
-                let tokens = jwt.sign({email : body.email},
+                let tokens = jwt.sign({ email: body.email },
                     config.secret,
-                    {expiresIn: 60*10}
+                    { expiresIn: 60 * 60 }
                 );
-                user.updateOne({email: body.email}, {token: tokens}, function(err, res){
-                    if(err)
-                    {
+                user.updateOne({ email: body.email }, { token: tokens }, function (err, res) {
+                    if (err) {
                         callback(err);
                     }
-                    else{
+                    else {
                         console.log("updated successfully");
                     }
                 });
@@ -132,7 +131,7 @@ class userModel {
                     from: 'chatApp <chatappowner@gmail.com>',
                     to: res.email,
                     subject: 'Reset password',
-                    text: 'Hello, You can reset your password using the link http://localhost:3000/reset/'+tokens+' which will expire in 10 minutes.'
+                    text: 'Hello, You can reset your password using the link http://localhost:3000/#!/reset/'+ tokens + ' which will expire in 1 hour.'
                 };
                 transporter.sendMail(mailOptions, function (err, res) {
                     if (err) {
@@ -148,32 +147,34 @@ class userModel {
         })
     }
 
-    reset = (body, callback) => {
-        let tokens = jwt.sign({email : body.email},
-            config.secret,
-            {expiresIn: 60*10}
-        );
-        let decoded = jwt.verify(tokens, config.secret, function(err, decoded) {
-            if(err)
-            {
+    reset = (req, callback) => {
+
+        const tokens = req.headers["tokens"] || req.headers["authorization"];
+        console.log(tokens);
+        let decoded = jwt.verify(tokens, config.secret, function (err, decoded) {
+            if (err) {
                 callback(err);
             }
-            else
-            {
-                user.findOne({email: decoded.email}, (err, res) => {
-                    if(!res)
-                    {
+            else {
+                user.findOne({ email: decoded.email }, (err, res) => {
+                    if (!res) {
                         callback("Wrong token taken");
                     }
-                    else
-                    {
-                        user.updateOne({email: decoded.email}, {password: bcrypt.hashSync(body.password, saltRounds)}, function(err, res){
-                            if(err)
-                            {
+                    else {
+                        user.updateOne({ email: decoded.email }, { password: bcrypt.hashSync(req.body.password, saltRounds) }, function (err, res) {
+                            if (err) {
                                 callback(err);
                             }
-                            else{
-                                //callback(null, res);
+                            else {
+                                user.updateOne({ email: decoded.email }, { token: null} , function (err, res) {
+                                    if(err)
+                                    {
+                                        callback(err);
+                                    }
+                                    else{
+                                        //
+                                    }
+                                })
                             }
                         });
                     }
@@ -181,50 +182,77 @@ class userModel {
                 callback(null, decoded.email);
             }
         });
-        
+
     }
 
-    message = (body, callback) => {
-        const mess = new msg ({
-            sender: body.sender,
-            senderName: body.senderName,
-            receiver: body.receiver,
-            receiverName: body.receiverName,
-            msgBody: body.msgBody
-        })
-
-        mess.save((err, result) => {
+    getUsers = (body, callback) => {
+        user.find({}, { email: 1}, function(err, res){
             if(err)
             {
                 callback(err);
-            } else {
-                callback(null, result);
+            }
+            else
+            {
+                callback(null, res);
             }
         })
-
-        // user.findOne({email: body.sender}, (err, res)=> {
-        //     if(!res)
-        //     {
-        //         callback(err);
-        //     }
-        //     else
-        //     {
-        //         msg.updateOne({sender: body.sender}, {senderName: res.firstName});
-        //     }
-        // });
-
-        // user.findOne({email: body.receiver}, (err, res)=> {
-        //     if(!res)
-        //     {
-        //         callback(err);
-        //     }
-        //     else
-        //     {
-        //         msg.updateOne({receiver: body.receiver}, {receiverName: res.firstName});
-        //     }
-        // });
-        
     }
+
+    // message = (body, callback) => {
+    //     const mess = new msg({
+    //         sender: body.sender,
+    //         senderName: body.senderName,
+    //         receiver: body.receiver,
+    //         receiverName: body.receiverName,
+    //         msgBody: body.msgBody
+    //     })
+
+    //     mess.save((err, result) => {
+    //         if (err) {
+    //             callback(err);
+    //         } else {
+    //             callback(null, result);
+    //         }
+    //     })
+
+        // reset = (body, callback) => {
+        //     // let tokens = jwt.sign({email : body.email},
+        //     //     config.secret,
+        //     //     {expiresIn: 60*10}
+        //     // );
+        //     const tokens = body.headers["tokens"] || body.headers["authorization"];
+        //     console.log(tokens);
+        //     let decoded = jwt.verify(tokens, config.secret, function(err, decoded) {
+        //         if(err)
+        //         {
+        //             callback(err);
+        //         }
+        //         else
+        //         {
+        //             user.findOne({email: decoded.email}, (err, res) => {
+        //                 if(!res)
+        //                 {
+        //                     callback("Wrong token taken");
+        //                 }
+        //                 else
+        //                 {
+        //                     user.updateOne({email: decoded.email}, {password: body.password}, function(err, res){ //bcrypt.hashSync(body.password, saltRounds)
+        //                         if(err)
+        //                         {
+        //                             callback(err);
+        //                         }
+        //                         else{
+        //                             //callback(null, res);
+        //                         }
+        //                     });
+        //                 }
+        //             });
+        //             callback(null, decoded.email);
+        //         }
+        //     });
+
+        // }
+
 }
 
 module.exports = new userModel();

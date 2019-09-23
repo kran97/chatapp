@@ -1,0 +1,24 @@
+<div ng-if="error">{{error}}</div>
+
+<nav>
+        <ul>
+            <li><a ui-sref="home">Home</a></li>
+        </ul>
+</nav>
+
+<div class="bg-image"></div>
+
+<form  ng-submit="forgotUser()" name="form" class="bg-text">
+        <div>
+            <h3 id="forgotHead">Please enter your registered email</h5>
+            <label for="email" class="labels">Email</label><br>
+            <i class="fa fa-key"></i>
+            <input type="email" style="width: 100%; height: 35px;" placeholder="Enter your registered email" name="email" id="email" ng-model="email" required />
+            <span ng-show="form.username.$dirty && form.username.$error.required" class="er">email is required!</span>
+        </div>
+
+        <div class="form-actions">
+                <button type="submit" ng-disabled="form.$invalid || dataLoading" id="loginbtn" style="padding: 15px; margin-top: 10px;">Send Reset Link</button>
+                <img ng-show="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+        </div>
+</form>
